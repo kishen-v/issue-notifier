@@ -1,0 +1,31 @@
+name: Issue foraging
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  run-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.23'  # Use the desired Go version
+
+      - name: Install dependencies
+        run: |
+          go mod tidy  # Fetch and tidy up dependencies
+
+      - name: Run the Go program
+        env:
+          PAT: ${{ secrets.PAT }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+        run: |
+          go run main.go
