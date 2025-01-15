@@ -56,7 +56,7 @@ func checkForNewIssues(githubClient *github.Client, slackClient *slack.Client, s
 	since := now.Add(-checkInterval)
 
 	// List orgs: Kubernetes and Kubernetes SIGs
-	orgs := []string{"kubernetes", "kubernetes-sigs"}
+	orgs := []string{"kubernetes", "kubernetes-sigs", "etcd-io"}
 
 	var issues []github.Issue
 	for _, org := range orgs {
